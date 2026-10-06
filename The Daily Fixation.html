@@ -1,0 +1,275 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>The Daily Fixation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a reading page seen through an eye tracker. Each section is an "area of interest"; highlighter marks what deserves a fixation. */
+:root{
+  --bg:#EDF2F8; --paper:#FFFFFF; --ink:#1A2340; --muted:#5B6585; --line:#CCD5E6;
+  --hl:#FFE45C; --hl-ink:#1A2340; --pop:#E8457A; --mint:#16A086; --wrong:#C9304F;
+  --display:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body:"Literata", Georgia, "Times New Roman", serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111727; --paper:#182037; --ink:#E7ECF7; --muted:#9AA5C4; --line:#2C3654;
+  --hl:#E9CB3B; --hl-ink:#111727; --pop:#FF7BA3; --mint:#3FD0B0; --wrong:#FF6F8C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111727; --paper:#182037; --ink:#E7ECF7; --muted:#9AA5C4; --line:#2C3654;
+  --hl:#E9CB3B; --hl-ink:#111727; --pop:#FF7BA3; --mint:#3FD0B0; --wrong:#FF6F8C; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1.02rem/1.6 var(--body);padding-inline:16px;padding-block:28px 56px}
+.wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+a{color:inherit;text-decoration-color:var(--pop);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.08}
+.aoi{font:500 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.aoi b{color:var(--pop);font-weight:500}
+.mark{background:linear-gradient(transparent 52%, var(--hl) 52%, var(--hl) 92%, transparent 92%);color:inherit;padding:0 .1em}
+
+/* masthead */
+.mast{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 32px;align-items:end;border-bottom:3px solid var(--ink);padding-bottom:22px}
+.mast h1{font-size:clamp(2.6rem,9vw,5.6rem);font-weight:800;letter-spacing:-.035em}
+.mast h1 span{color:var(--pop)}
+.mast p{margin:10px 0 0;max-width:46ch;color:var(--muted);font-style:italic}
+.gaze{width:220px;max-width:100%;height:auto}
+.gaze line{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 4}
+.gaze circle{fill:var(--pop);fill-opacity:.25;stroke:var(--pop);stroke-width:1.5}
+.gaze text{font:500 9px var(--mono);fill:var(--muted)}
+.meta{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font:500 .74rem/1.4 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:640px){.mast{grid-template-columns:1fr}.gaze{width:180px}}
+
+/* editor's thoughts: the note sits inside a picture frame */
+.editor{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
+.frame{margin:0;max-width:720px;width:100%;background:var(--paper);border:10px double var(--ink);outline:1px solid var(--line);outline-offset:6px;padding:clamp(22px,5vw,44px) clamp(18px,5vw,48px);display:flex;flex-direction:column;gap:16px}
+.frame blockquote{margin:0;font:italic 400 clamp(1.15rem,2.8vw,1.45rem)/1.55 var(--body);text-wrap:pretty}
+.frame figcaption{font:500 .74rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--pop)}
+
+/* thoughts last night: a ruled notebook page */
+.lastnight{max-width:760px;width:100%;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:clamp(20px,4vw,34px) clamp(18px,4vw,36px) clamp(20px,4vw,34px) clamp(28px,6vw,56px);display:flex;flex-direction:column;gap:12px;transform:rotate(.5deg);box-shadow:-3px 0 0 0 var(--pop) inset;background-image:repeating-linear-gradient(transparent 0 calc(1.7rem - 1px), var(--line) calc(1.7rem - 1px) 1.7rem)}
+.lastnight h2{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:800}
+.notes{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:10px;line-height:1.7}
+.notes li::marker{color:var(--pop)}
+.notes b{font-family:var(--display);font-weight:800}
+
+/* news */
+.news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+@media (max-width:760px){.news{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.col h2{font-size:1.9rem;font-weight:800}
+.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.items li{display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.ms{font:500 .7rem/1.6 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:.2rem}
+.items h3{font-size:1.08rem;font-weight:800;margin-bottom:4px}
+.items p{margin:0;color:var(--muted);font-size:.95rem}
+.items li:hover h3 .hlt{background:linear-gradient(transparent 55%, var(--hl) 55%);}
+
+/* jokes */
+.jokes{background:var(--hl);color:var(--hl-ink);border-radius:6px;padding:clamp(22px,5vw,44px);display:flex;flex-direction:column;gap:18px;transform:rotate(-.6deg)}
+.jokes .aoi{color:var(--hl-ink);opacity:.75}
+.jokes .aoi b{color:var(--hl-ink)}
+.joke{font-family:var(--display);font-weight:800;font-size:clamp(1.35rem,3.6vw,2.1rem);line-height:1.2;letter-spacing:-.015em;max-width:30ch;margin:0;min-height:4.8em}
+.jrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn{font:500 .8rem/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;border:2px solid currentColor;background:transparent;color:inherit;padding:11px 16px;border-radius:999px;cursor:pointer}
+.btn:hover{background:var(--hl-ink);color:var(--hl)}
+.jcount{font:500 .74rem var(--mono);font-variant-numeric:tabular-nums}
+
+/* papers */
+.sect{display:flex;flex-direction:column;gap:20px}
+.sect>h2{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800;letter-spacing:-.02em}
+.sect>p.lede{margin:-8px 0 0;color:var(--muted);max-width:62ch}
+.papers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.paper{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:8px 24px;padding:18px 0;border-top:1px solid var(--line)}
+.venue{font:500 .72rem/1.5 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mint)}
+.paper h3{font-size:1.15rem;font-weight:800}
+.paper h3 a{text-decoration:none}
+.paper h3 a:hover{text-decoration:underline}
+.paper .by{font-size:.86rem;color:var(--muted);margin:4px 0 6px}
+.paper p{margin:0;max-width:66ch}
+.paper .wink{display:block;margin-top:6px;font-style:italic;color:var(--pop);font-size:.92rem}
+@media (max-width:640px){.paper{grid-template-columns:1fr}}
+
+/* quiz */
+.score{font:500 .8rem var(--mono);font-variant-numeric:tabular-nums;color:var(--muted)}
+.qs{display:flex;flex-direction:column;gap:18px;counter-reset:q}
+.q{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:clamp(16px,3vw,24px);display:flex;flex-direction:column;gap:14px}
+.q .tag{font:500 .7rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.q .stem{margin:0;font-weight:600;max-width:70ch}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{font:400 .95rem/1.4 var(--body);text-align:left;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:10px 12px;cursor:pointer;display:flex;gap:10px}
+.opt span{font:500 .78rem var(--mono);color:var(--muted);padding-top:2px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--mint);box-shadow:inset 4px 0 0 var(--mint)}
+.opt.wrong{border-color:var(--wrong);box-shadow:inset 4px 0 0 var(--wrong);opacity:.85}
+.why{margin:0;font-size:.93rem;color:var(--muted);border-left:3px solid var(--hl);padding-left:12px}
+.why b{color:var(--ink)}
+
+footer{border-top:3px solid var(--ink);padding-top:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:500 .74rem/1.6 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+footer p{margin:0;max-width:60ch}
+@media (prefers-reduced-motion:no-preference){
+  .gaze circle.last{animation:pulse 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes pulse{50%{transform:scale(1.25)}}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div>
+    <div class="aoi"><b>●</b> Tuesday, 6 October 2026 · a gift edition</div>
+    <h1>The Daily <span>Fixation</span></h1>
+    <p>Today's world and India, a few jokes, five papers worth a long fixation, and five CSAT questions. Read slowly. Regressions allowed.</p>
+  </div>
+  <svg class="gaze" viewBox="0 0 220 110" role="img" aria-label="A scanpath of eye fixations across a line of text">
+    <line x1="18" y1="30" x2="70" y2="38"/><line x1="70" y1="38" x2="128" y2="26"/><line x1="128" y1="26" x2="96" y2="40"/><line x1="96" y1="40" x2="188" y2="34"/><line x1="188" y1="34" x2="40" y2="80"/><line x1="40" y1="80" x2="150" y2="84"/>
+    <circle cx="18" cy="30" r="7"/><circle cx="70" cy="38" r="12"/><circle cx="128" cy="26" r="9"/><circle cx="96" cy="40" r="6"/><circle cx="188" cy="34" r="14"/><circle cx="40" cy="80" r="8"/><circle class="last" cx="150" cy="84" r="16"/>
+    <text x="104" y="60">regression</text><text x="150" y="108" text-anchor="middle">412 ms</text>
+  </svg>
+  <div class="meta"><span>News as of 10:00 IST</span><span>Est. reading time: one chai</span></div>
+</header>
+
+<section class="editor" aria-label="Editor's thoughts">
+  <div class="aoi"><b>●</b> Editor's thoughts</div>
+  <figure class="frame">
+    <blockquote>Maybe you're not stuck, maybe you're just standing too close to the painting and noticing every tiny brushstroke. Step back a little. You've already made the whole picture; now you're just giving it a frame.</blockquote>
+    <figcaption>— The Editor, for today</figcaption>
+  </figure>
+</section>
+
+<section class="news" aria-label="Current affairs">
+  <div class="col">
+    <div class="aoi"><b>AOI 1</b> The world</div>
+    <h2>World</h2>
+    <ul class="items">
+      <li><span class="ms">310 ms</span><div><h3><span class="hlt">Brazil goes to a runoff</span></h3><p>No candidate crossed 50% in the first round, so Lula and Bolsonaro face each other again on 25 October.</p></div></li>
+      <li><span class="ms">290 ms</span><div><h3><span class="hlt">Yemen launches a major offensive</span></h3><p>The government, backed by Saudi air power, opened a new push against the Houthis and claims gains along the Red Sea coast.</p></div></li>
+      <li><span class="ms">270 ms</span><div><h3><span class="hlt">Iran admits a deep economic crisis</span></h3><p>A top security official conceded severe strain from US sanctions and the naval blockade. Meanwhile Middle East oil exports are back above pre-war levels.</p></div></li>
+      <li><span class="ms">240 ms</span><div><h3><span class="hlt">Spain calls a snap election</span></h3><p>PM Pedro Sánchez went to the polls early after parliament rejected his housing relief measures.</p></div></li>
+      <li><span class="ms">220 ms</span><div><h3><span class="hlt">US jobs market stalls</span></h3><p>Only 29,000 jobs were added in September and unemployment rose to 4.2%. Washington also unveiled a new task force to coordinate government work on AI.</p></div></li>
+      <li><span class="ms">200 ms</span><div><h3><span class="hlt">Plague scare in Russia</span></h3><p>Close to 200 people were hospitalised in the Irkutsk region after suspected plague exposure linked to a researcher's death.</p></div></li>
+    </ul>
+  </div>
+  <div class="col">
+    <div class="aoi"><b>AOI 2</b> Home</div>
+    <h2>India</h2>
+    <ul class="items">
+      <li><span class="ms">480 ms</span><div><h3><span class="hlt">85 medals and a golden sweep</span></h3><p>India closed the Aichi-Nagoya Asian Games fourth with 21 gold, 27 silver and 37 bronze, winning both men's and women's gold in cricket, kabaddi and hockey. The women's hockey gold was the first since 1982, and both hockey teams qualified for LA 2028.</p></div></li>
+      <li><span class="ms">330 ms</span><div><h3><span class="hlt">RBI's rate panel is in session</span></h3><p>The MPC meets 5 to 7 October with the repo rate at 5.25%. Most economists expect another hold when the decision lands tomorrow.</p></div></li>
+      <li><span class="ms">280 ms</span><div><h3><span class="hlt">India and Switzerland sign five agreements</span></h3><p>PM Modi held talks with Swiss President Guy Parmelin in New Delhi. Separately, India and Canada start the fifth round of trade-pact talks today.</p></div></li>
+      <li><span class="ms">250 ms</span><div><h3><span class="hlt">Bypolls under way</span></h3><p>Voting is on for five assembly seats in Tamil Nadu, Puducherry and West Bengal, plus a Lok Sabha seat in Assam. Rajya Sabha nominations for UP, Uttarakhand and West Bengal close today.</p></div></li>
+      <li><span class="ms">230 ms</span><div><h3><span class="hlt">Dibrugarh's first international cargo voyage</span></h3><p>A first international cargo sailing from Dibrugarh in Assam is being flagged off, a step for the Brahmaputra waterway.</p></div></li>
+      <li><span class="ms">210 ms</span><div><h3><span class="hlt">Foreign investors pull out</span></h3><p>FPIs withdrew ₹35,861 crore from Indian equities in September.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="lastnight" aria-label="Thoughts last night">
+  <div class="aoi"><b>●</b> From yesterday's brainstorm</div>
+  <h2>Thoughts last night</h2>
+  <ul class="notes">
+    <li><b>Text or purpose?</b> That question is already the strategic-processing argument: text-driven, bottom-up attention versus goal-driven, top-down allocation. Sentence function is where the strategy becomes visible.</li>
+    <li><b>Earn the word "strategic."</b> Look for selectivity (a Prompt × AOI interaction), goal congruence, and effects that show up later, in rereading, more than in first pass.</li>
+    <li><b>Claim it gently.</b> Say "consistent with strategic reallocation." Read the transitional-sentence effect as search behaviour, and note that the no-prompt baseline still carries a default reading goal.</li>
+  </ul>
+</section>
+
+<section class="jokes" aria-label="Jokes">
+  <div class="aoi"><b>AOI 3</b> Comic relief · <span id="jtag">Eye-tracking pun</span></div>
+  <p class="joke" id="joke" aria-live="polite">Why did the saccade break up with the fixation? It needed to move on.</p>
+  <div class="jrow"><button class="btn" id="jnext" type="button">Next joke →</button><span class="jcount" id="jcount">1 / 4</span></div>
+</section>
+
+<section class="sect" aria-label="Research papers">
+  <div class="aoi"><b>AOI 4</b> Attention allocation · strategic processing · prompting</div>
+  <h2>Papers worth a <span class="mark">long fixation</span></h2>
+  <p class="lede">Three picks on how questions, goals and instructions given before reading steer where the eyes go.</p>
+  <ol class="papers">
+    <li class="paper"><div class="venue">Çankaya University · 2024</div><div>
+      <h3><a href="https://caa.cankaya.edu.tr/entities/publication/12fbcb40-4ce6-4567-85fe-b4402f3cc284" target="_blank" rel="noopener">The Effect of Integrative Prequestions on Learning From Text: An Eye-Tracking Study</a></h3>
+      <div class="by">Thesis study</div>
+      <p>Answering integrative questions before reading drew more fixations and more transitions to the prequestioned sentences. Surprisingly, readers also learned the non-prequestioned material better while looking at it less.</p>
+      <span class="wink">Less attention, more learning. Discuss in your limitations section.</span></div></li>
+    <li class="paper"><div class="venue">ICLR 2026</div><div>
+      <h3><a href="https://arxiv.org/abs/2505.02872" target="_blank" rel="noopener">Decoding Open-Ended Information Seeking Goals from Eye Movements in Reading</a></h3>
+      <div class="by">Hadar, Berzak and colleagues · Technion</div>
+      <p>Readers got a specific question before reading. Using the OneStop dataset (360 readers), multimodal LLMs could tell which question a person had in mind from their eye movements alone, and could partly reconstruct the question's wording.</p>
+      <span class="wink">The pre-reading prompt leaves fingerprints all over the scanpath.</span></div></li>
+    <li class="paper"><div class="venue">J. Eye Movement Research · 2025</div><div>
+      <h3><a href="https://doi.org/10.3390/jemr18050044" target="_blank" rel="noopener">Processing Written Language in Video Games: An Eye-Tracking Study on Subtitled Instructions</a></h3>
+      <div class="by">JEMR 18(5), 44</div>
+      <p>Players saw instructions as subtitles, speech, or both, some meant for them and some for AI teammates. It tracks how attention is split between relevant and irrelevant instructions under time pressure, extending E-Z Reader ideas to multimedia.</p>
+      <span class="wink">Instruction relevance, but make it a game.</span></div></li>
+  </ol>
+</section>
+
+<section class="sect" aria-label="CSAT quiz">
+  <div class="aoi"><b>AOI 5</b> UPSC CSAT 2021 · Paper II · <span class="score" id="score">0 of 5 answered</span></div>
+  <h2>Five from the <span class="mark">CSAT archive</span></h2>
+  <p class="lede">Real questions from the 2021 CSAT paper. Options are condensed. Tap an answer to see the working.</p>
+  <div class="qs" id="qs"></div>
+</section>
+
+<footer>
+  <p>Made as a gift, with a highlighter and too much chai. May your fixations be long and your reviewers kind.</p>
+  <p>Sources: News on AIR · Helperling Morning Brief · arXiv · JEMR</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  const jokes = [["Eye-tracking pun", "Why did the saccade break up with the fixation? It needed to move on."],
+    ["Monetary policy", "The RBI's rate committee meets for three full days to decide whether to change nothing. In eye-tracking terms: very long fixation, zero saccade."],
+    ["PhD life", "My PhD is on attention allocation. My attention is currently allocated to everything except my PhD."],
+    ["Geopolitics", "Oil markets have adopted a new reading strategy: skim the entire world, fixate only on the Strait of Hormuz."]];
+  let j = 0;
+  const jEl = document.getElementById('joke'), tEl = document.getElementById('jtag'), cEl = document.getElementById('jcount');
+  document.getElementById('jnext').addEventListener('click', () => {
+    j = (j + 1) % jokes.length;
+    tEl.textContent = jokes[j][0]; jEl.textContent = jokes[j][1]; cEl.textContent = (j + 1) + ' / ' + jokes.length;
+  });
+
+  const qs = [
+    {t:"Reasoning", s:"Three points P, Q and R lie on a straight line such that PQ : QR = 3 : 5. If n is the number of possible values of PQ : PR, what is n?",
+     o:["1","2","3","4"], a:1,
+     w:"If Q lies between P and R, PR = 3 + 5 = 8, so PQ : PR = 3 : 8. If P lies between Q and R, PR = 5 − 3 = 2, so the ratio is 3 : 2. R can't lie between P and Q because QR is longer than PQ. So <b>n = 2</b>."},
+    {t:"Reasoning", s:"Seven books P, Q, R, S, T, U and V sit side by side. R, Q and T have blue covers; the rest are red. Only S and U are new; the rest are old. P, R and S are law reports; the rest are Gazetteers. Which books are old Gazetteers with blue covers?",
+     o:["Only Q","Only T","Q and T","Q, T and V"], a:2,
+     w:"Gazetteers: Q, T, U, V. Old ones: Q, T, V (U is new). Blue among those: Q and T (V is red). Answer: <b>Q and T</b>."},
+    {t:"Maths", s:"A student took 6 papers with the same maximum marks. His marks were in the ratio 5 : 6 : 7 : 8 : 9 : 10 and he scored 60% overall. In how many papers did he score below 60%?",
+     o:["2","3","4","5"], a:1,
+     w:"Total = 45 parts over 6 papers, so the average paper is 7.5 parts, and that equals 60%. Papers below 7.5 parts are 5, 6 and 7. Answer: <b>3</b>."},
+    {t:"Directions", s:"A woman runs 12 km north, then 6 km south, then 8 km east. In which direction is she from her starting point?",
+     o:["North","East","North-East","South-East"], a:2,
+     w:"Net movement is 6 km north and 8 km east, so she is to the <b>North-East</b>, 10 km away (a 6-8-10 triangle)."},
+    {t:"Reasoning", s:"Joseph visits a club every 5th day, Harsh every 24th day and Sumit every 9th day. All three met there on a Sunday. On which day will they next meet?",
+     o:["Monday","Tuesday","Wednesday","Thursday"], a:2,
+     w:"LCM of 5, 24 and 9 is 360 days. 360 = 51 weeks + 3 days, so Sunday + 3 = <b>Wednesday</b>."}
+  ];
+  const host = document.getElementById('qs'), scoreEl = document.getElementById('score');
+  let answered = 0, right = 0;
+  qs.forEach((q, i) => {
+    const card = document.createElement('div'); card.className = 'q';
+    card.innerHTML = '<div class="tag">Q' + (i+1) + ' · ' + q.t + '</div><p class="stem">' + q.s + '</p><div class="opts" role="group"></div><p class="why" hidden></p>';
+    const opts = card.querySelector('.opts'), why = card.querySelector('.why');
+    q.o.forEach((txt, k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.id = 'q' + i + 'o' + k;
+      b.innerHTML = '<span>' + 'abcd'[k] + '</span>' + txt;
+      b.addEventListener('click', () => {
+        opts.querySelectorAll('button').forEach((x, m) => { x.disabled = true; if (m === q.a) x.classList.add('right'); });
+        if (k !== q.a) b.classList.add('wrong'); else right++;
+        answered++;
+        why.innerHTML = (k === q.a ? 'Correct. ' : 'Not quite. ') + q.w; why.hidden = false;
+        scoreEl.textContent = answered < qs.length ? answered + ' of 5 answered · ' + right + ' right' : 'Final score ' + right + ' / 5' + (right === 5 ? ' · LBSNAA is calling' : right >= 3 ? ' · qualifying marks secured' : ' · more chai needed');
+      });
+      opts.appendChild(b);
+    });
+    host.appendChild(card);
+  });
+})();
+</script>
+
+</body></html>
